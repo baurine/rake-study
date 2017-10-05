@@ -183,3 +183,30 @@ end
 # > rake original_dir
 # 输出：
 # ---/MyCodes/rake-study
+
+##########################################
+
+# Resource：
+# - [Rakefile Format](https://ruby.github.io/rake/doc/rakefile_rdoc.html)
+
+# Example - Tasks that Expect Parameters and Have Prerequisites
+task :pre_name do
+  puts 'Pre name'
+end
+
+task :name, [:first_name, :last_name] => [:pre_name] do |t, args|
+  puts t.name
+  puts t.prerequisites
+  args.with_defaults(:first_name => "John", :last_name => "Dough")
+  puts "First name is #{args.first_name}"
+  puts "Last  name is #{args.last_name}"
+end
+# 第一个参数 t 表示 name 这个 task 自己，它的属性有 t.name、t.prerequisites 等
+# 执行：
+# > rake "name[billy bob, smith]"
+# 输出：
+# Pre name
+# name
+# pre_name
+# First name is billy bob
+# Last  name is smith
